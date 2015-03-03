@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Simple instagram client"
   s.description = "Read-only instagran client"
 
-  s.files = Dir["{config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{config,db,lib}/**/*"] + ["LICENSE", "README.md"]
 
   s.add_dependency "typhoeus"
 
