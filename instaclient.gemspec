@@ -15,7 +15,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
 
+  s.add_dependency "typhoeus"
+
   s.add_development_dependency "rspec"
   s.add_development_dependency "pry"
   s.add_development_dependency "pry-nav"
+  s.add_development_dependency "webmock"
 end
