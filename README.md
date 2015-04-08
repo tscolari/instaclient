@@ -9,8 +9,8 @@ Usage
 
 ```
   require 'instaclient'
-
   client = Instaclient::Client.new(my_client_id, my_client_secret)
+
   result = client.recent(user_id, count)
 
   result.each do |media|
@@ -19,6 +19,15 @@ Usage
     puts "Image: #{media.image_url(:standard_resolution)}"
     ...
   end
+
+  embed = client.embed("https://instagram.com/p/somemedia/")
+
+  embed.html
+  #=> "<blockquote ..."
+  embed.title
+  #=> "media title"
+  embed.author
+  #=> "author name"
 ```
 
 Methods
