@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    instaclient (0.0.2)
+    instaclient (0.0.3)
       typhoeus
 
 GEM
