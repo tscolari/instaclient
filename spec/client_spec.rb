@@ -7,8 +7,11 @@ module Instaclient
 
     subject { Client.new(client_id, client_secret) }
 
-    describe "#recent" do
+    before do
+      stub_request(:get, url).to_return(body: response)
+    end
 
+    describe "#recent" do
       let(:response) do
         <<-RESPONSE
           {
@@ -163,10 +166,6 @@ module Instaclient
         "https://api.instagram.com/v1/users/user1234/media/recent/?count=50&client_id=12345"
       end
 
-      before do
-        stub_request(:get, url).to_return(body: response)
-      end
-
       it "sends the correct request" do
         subject.recent("user1234", 50)
         expect(WebMock).to have_requested(:get, url)
@@ -198,6 +197,51 @@ module Instaclient
           }.to raise_error(Client::RequestError, "Got 404 from instagram. Maybe wrong user_id?")
         end
       end
+    end
+
+    describe "#embed" do
+      let(:response) do
+        <<-RESPONSE
+        {
+            "author_id": 9538472,
+            "author_name": "diegoquinteiro",
+            "author_url": "http://instagram.com/diegoquinteiro",
+            "height": null,
+            "html": "some html",
+            "media_id": "558717847597368461_9538472",
+            "provider_name": "Instagram",
+            "provider_url": "http://instagram.com/",
+            "title": "Wii Gato (Lipe Sleep)",
+            "type": "rich",
+            "thumbnail_url": "http://distilleryimage5.ak.instagram.com/5dceebb02c5811e3b57222000a9e07e9_8.jpg",
+            "thumbnail_width": 640,
+            "thumbnail_height": 640,
+            "version": "1.0",
+            "width": 658
+        }
+        RESPONSE
+      end
+
+      let(:url) do
+        "http://api.instagram.com/oembed?url=http://instagr.am/p/fA9uwTtkSN/"
+      end
+
+      it "sends the correct request" do
+        subject.embed("http://instagr.am/p/fA9uwTtkSN/")
+        expect(WebMock).to have_requested(:get, url)
+      end
+
+      it "parses the response into the correct Embed object" do
+        embed = subject.embed("http://instagr.am/p/fA9uwTtkSN/")
+
+        expect(embed.author_name).to eq('diegoquinteiro')
+        expect(embed.title).to eq('Wii Gato (Lipe Sleep)')
+        expect(embed.thumbnail).to eq('http://distilleryimage5.ak.instagram.com/5dceebb02c5811e3b57222000a9e07e9_8.jpg')
+        expect(embed.author_url).to eq('http://instagram.com/diegoquinteiro')
+        expect(embed.author_id).to eq(9538472)
+        expect(embed.html).to eq('some html')
+      end
+
     end
   end
 end

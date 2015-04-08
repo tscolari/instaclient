@@ -1,5 +1,7 @@
 require 'json'
 require 'typhoeus'
+require 'instaclient/models/media'
+require 'instaclient/models/embed'
 
 module Instaclient
   class Client
@@ -19,9 +21,16 @@ module Instaclient
       end
     end
 
+    def embed(media_url)
+      url = EMBED_ENDPOINT % { url: media_url }
+      data = parsed_response(url)
+      Models::Embed.new(data)
+    end
+
     private
 
     RECENT_MEDIA_ENDPOINT = "https://api.instagram.com/v1/users/%{user_id}/media/recent/?count=%{count}&client_id=%{client_id}"
+    EMBED_ENDPOINT = "http://api.instagram.com/oembed?url=%{url}"
 
     def make_request(url)
       Typhoeus.get(url).tap do |response|

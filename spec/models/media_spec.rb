@@ -1,7 +1,5 @@
 require 'spec_helper'
 require 'json'
-require 'pry'
-require 'pry-nav'
 
 module Instaclient::Models
   RSpec.describe(Media) do
