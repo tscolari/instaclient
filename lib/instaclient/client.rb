@@ -30,7 +30,7 @@ module Instaclient
     private
 
     RECENT_MEDIA_ENDPOINT = "https://api.instagram.com/v1/users/%{user_id}/media/recent/?count=%{count}&client_id=%{client_id}"
-    EMBED_ENDPOINT = "http://api.instagram.com/oembed?url=%{url}"
+    EMBED_ENDPOINT = "http://api.instagram.com/publicapi/oembed/?url=%{url}"
 
     def make_request(url)
       Typhoeus.get(url).tap do |response|

@@ -223,7 +223,7 @@ module Instaclient
       end
 
       let(:url) do
-        "http://api.instagram.com/oembed?url=http://instagr.am/p/fA9uwTtkSN/"
+        "http://api.instagram.com/publicapi/oembed/?url=http://instagr.am/p/fA9uwTtkSN/"
       end
 
       it "sends the correct request" do
